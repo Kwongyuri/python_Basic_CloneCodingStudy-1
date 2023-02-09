@@ -16,7 +16,7 @@ Today I Leared
 <br/>
 
 ### 진행 강좌 
-![노마드 코더- 파이썬으로 웹스크리퍼 만들기 강좌 ](https://nomadcoders.co/courses)
+[노마드 코더- 파이썬으로 웹스크리퍼 만들기 강좌](https://nomadcoders.co/courses)
 
 ### 진행 일정
 
