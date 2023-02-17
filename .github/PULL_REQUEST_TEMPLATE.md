@@ -1,4 +1,4 @@
-## JAVA Basic Study  TIL 2월 
+##  Basic Study  TIL 2월 
 * 꼭!!  Pull Request시 아래 내용을 작성해주세요! <br>
 
 ##  오늘 공부한 간단한 내용을 작성해주세요 (표형태)
