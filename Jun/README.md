@@ -121,7 +121,7 @@ say_hello("User050210", 101)
 ~~~
 >결과<br>hello User012050 how are you?<br>you are 99 years old<br>hello User050210 how are you?<br>you are 101 years old
 
-***확인***
+***확인***<br>
 하나는 default 값을 쓰고 다른 하나는 값을 넣고 싶을 때 하는 방법 찾아보기<br>
 >->기본 매개변수를 사용할 때 한가지 지켜야 할 점은, 기본 매개변수를 non-default value parameter의 앞에 배치해야 한다는 점이다.<br>
 출처:https://url.kr/whzlb8
@@ -152,7 +152,7 @@ pay_tax(tax_cal(100))
 
 >결과<br>Thank you for paying 35.0
 
-***중요***
+***중요***<br>
 ,(쉼표)를 쓰지 않고 문장에 변수를 넣는 방법
 ~~~
 def hello(word):
@@ -211,3 +211,98 @@ else:
 >if가 거짓이고 elif의 조건이 참일 때 elif 안의 문장이 실행된다.
 
 if > elif > else 순으로 동작한다.
+
+
+---------------------
+###  2023년 2월 19일 파이썬 스터디 공부
+>input, type, int, and, or, Standard Library, while
+
+## input
+
+하나의 argument만 받고 그 값을 return함<br>사용자에게 질물은 하는 함수
+~~~
+age = input("How old are you?")
+print("user answer", age)
+~~~
+
+## type 
+
+~~~
+age = input("How old are you?")
+print(type(age))
+~~~
+
+>How old are you?123<br><class 'str'>
+
+숫자로 값을 받고 싶을 때는 int를 사용
+
+~~~
+age = int(input("How old are you?"))
+print(type(age))
+~~~
+
+>How old are you?123<br><class 'int'>
+
+## and
+
+양쪽의 값이 다 참이여야 된다.
+
+~~~
+age = int(input("How old are you?"))
+if age < 18:
+  print("You can't drink.")
+elif age >= 18 and age <= 35:
+  print("You drink beer!")
+else:
+  print("Go ahead!")
+~~~
+
+## or
+
+둘 중에서 하나라도 참이면 된다.
+
+~~~
+age = int(input("How old are you?"))
+if age < 18:
+  print("You can't drink.")
+elif age >= 18 and age <= 35:
+  print("You drink beer!")
+elif age == 60 or age == 70:
+  print("Birthday party!")
+else:
+  print("Go ahead!")
+~~~
+
+정리
+
+~~~
+True and  True == True
+False and True == False
+True and False == False
+False and False == False
+
+True or True == True
+True or False == True
+False or True == True
+False or False == False
+~~~
+
+## Standard Library
+
+>이미 언어에 포함된 function들의 그룹
+
+https://docs.python.org/3.12/library/
+
+## while
+
+조건이 참일 때 while 안의 문장을 무한 반복함
+
+~~~
+distance = 0
+while distance < 20:
+  print("I'm running:", distance,"km")
+  distance = distance + 1
+~~~
+
+>결과<br>I'm running: 0 km<br>I'm running: 1 km<br>I'm running: 2 km<br>I'm running: 3 km<br>I'm running: 4 km<br>I'm running: 5 km<br>I'm running: 6 km<br>I'm running: 7 km<br>I'm running: 8 km<br>I'm running: 9 km<br>I'm running: 10 km<br>I'm running: 11 km<br>I'm running: 12 km<br>I'm running: 13 km<br>I'm running: 14 km<br>I'm running: 15 km<br>I'm running: 16 km<br>I'm running: 17 km<br>I'm running: 18 km<br>I'm running: 19 km
+

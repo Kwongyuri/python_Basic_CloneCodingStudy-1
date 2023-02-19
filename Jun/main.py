@@ -81,10 +81,84 @@ print("\n\n")
 #   print("it is False")
 
 
-winner = 10
-if winner > 10:
-  print("winner is greater than 10")
-elif winner == 10:
-  print("winner is 10")
-else:
-  print("winner is less than 10")
+# winner = 10
+# if winner > 10:
+#   print("winner is greater than 10")
+# elif winner == 10:
+#   print("winner is 10")
+# else:
+#   print("winner is less than 10")
+
+# --------------------------------------------------------------------
+#2023.02.19 Python 스터디 실습
+
+# input("How old are you?")
+
+
+# age = input("How old are you?")
+# print("user answer", age)
+
+
+# age = input("How old are you?")
+# print(type(age))
+
+
+# age = int(input("How old are you?"))
+# print(type(age))
+
+
+# age = int(input("How old are you?"))
+# if age < 18:
+#   print("You can't drink.")
+# elif age >= 18 and age <= 35:
+#   print("You drink beer!")
+# elif age == 60 or age == 70:
+#   print("Birthday party!")
+# else:
+#   print("Go ahead!")
+
+
+# True and  True == True
+# False and True == False
+# True and False == False
+# False and False == False
+
+# True or True == True
+# True or False == True
+# False or True == True
+# False or False == False
+
+# from random import randint
+
+# user_choice = int(input("Choose number:"))
+# pc_choice = randint(1, 50)
+
+# if user_choice == pc_choice:
+#   print("You win!")
+# elif user_choice >  pc_choice:
+#   print("Lower! Computer chose", pc_choice)
+# elif user_choice < pc_choice:
+#   print("Higher! Computer chose", pc_choice)
+
+
+# distance = 0
+# while distance < 20:
+#   print("I'm running:", distance,"km")
+#   distance = distance + 1
+
+
+from random import randint
+
+print("Welcom to Python Casino")
+pc_choice = randint(1, 50)
+
+playing = True
+while playing:
+  user_choice = int(input("Choose number:"))
+  if user_choice == pc_choice:
+    print("You win!")
+    playing = False
+  elif user_choice >  pc_choice:
+    print("Lower!")
+  elif user_choice < pc_choice:
+    print("Higher!")
