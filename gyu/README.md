@@ -146,4 +146,54 @@ else: #winner = 10, 모든 경우가 false 일때
   print("winner is 10")
  #결과: winner is 10 (winner변수가 10이므로 if문과 elif문은 거짓, 따라서 else문 작동)
 ~~~
+
+
+
+## 파이썬 스터디 3일차
+
+### 필기
++ input => 하나의 argument를 받음, 사용자의 입력값이 리턴값
+
++ type => 입력값의 타입 출력
++ print(type(입력값))
+
++ and => 동시에 두 조건을 확인, 모두 참이여야만 true
+  true and true = true
+  true and false = false
+  false and true = false
+  false and false = false
+
++ or => 앞부분 또는 뒷부분이 참인지 확인(하나만 참이어도 됨)
+  true or true = true
+  true or false = true
+  false or true = true
+  false or false = false
+
++ 파이썬에는 다양한 함수를 포함한 모듈이 있고, 필요시 이를 import하여 사용 가능하다!
+
++ while => 조건을 만족하면 코드를 무한히 반복
+
+### 실습
+~~~
+ #실습1(파이썬 카지노) 
+from random import randint
+print("welcome to python casino!")
+
+pc_choice = randint(0, 100)
+
+playing = True
+
+while playing:
  
+ user_choice = int(input("choose number(1~100).: "))
+
+ if user_choice == pc_choice:
+   print("you won!")
+   playing = False
+
+ elif user_choice > pc_choice:
+   print("lower!")
+
+ elif user_choice < pc_choice:
+   print("higher!")
+~~~
