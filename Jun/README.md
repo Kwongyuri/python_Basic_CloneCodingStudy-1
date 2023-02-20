@@ -2,7 +2,7 @@
 중요, 확인
 >참고 링크:https://nomadcoders.co/python-for-beginners/lobby
 
----------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ###  2023년 2월 17일 파이썬 스터디 공부
 >print(), 변수, 데이터 타입, 함수, 문법, 매개변수
 
@@ -106,7 +106,7 @@ say_hello("User012050", 99)
 >결과<br>hello User012050 how r u?<br>you are 99 years old
 
 
----------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ###  2023년 2월 18일 파이썬 스터디 공부
 >함수 기본값, return, if, else, elif
 
@@ -213,7 +213,7 @@ else:
 if > elif > else 순으로 동작한다.
 
 
----------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ###  2023년 2월 19일 파이썬 스터디 공부
 >input, type, int, and, or, Standard Library, while
 
@@ -291,7 +291,7 @@ False or False == False
 
 >이미 언어에 포함된 function들의 그룹
 
-https://docs.python.org/3.12/library/
+https://docs.python.org/ko/3.12/library/
 
 ## while
 
@@ -306,3 +306,184 @@ while distance < 20:
 
 >결과<br>I'm running: 0 km<br>I'm running: 1 km<br>I'm running: 2 km<br>I'm running: 3 km<br>I'm running: 4 km<br>I'm running: 5 km<br>I'm running: 6 km<br>I'm running: 7 km<br>I'm running: 8 km<br>I'm running: 9 km<br>I'm running: 10 km<br>I'm running: 11 km<br>I'm running: 12 km<br>I'm running: 13 km<br>I'm running: 14 km<br>I'm running: 15 km<br>I'm running: 16 km<br>I'm running: 17 km<br>I'm running: 18 km<br>I'm running: 19 km
 
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###  2023년 2월 20일 파이썬 스터디 공부
+>list, str methods, tuple, dictionary
+
+## list
+
+~~~
+days_of_week = ["mon", "Tue", "Wed", "Thur", "Fri"]
+print(days_of_week)
+~~~
+
+>['mon', 'Tue', 'Wed', 'Thur', 'Fri']
+
+특정 리스트 선택
+
+~~~
+days_of_week = ["mon", "Tue", "Wed", "Thur", "Fri"]
+print(days_of_week[3])
+~~~
+
+~~~
+days_of_week = [1, 2, 3, True, False, "hi", "black", [ 1, 2, 3, [False, True]]]
+print(days_of_week[7][3][1])
+~~~
+
+>True
+
+
+## method
+
+https://docs.python.org/ko/3.12/library/stdtypes.html#text-sequence-type-str
+
+***.upper()***
+<br>
+데이터를 대문자로 바꿔준다
+
+~~~
+name = "abc"
+print(name.upper())
+~~~
+
+>ABC
+
+
+
+***.capitalize()***
+<br>첫 번째 글자를 대문자로 바꿔줌<br>
+
+***확인***
+string인 name variable 안에는 capitalize라는 method가 있다.
+
+~~~
+name ="nico"
+print(name.capitalize())
+~~~
+
+>Nico
+
+***.startswith("문자")***
+<br>첫 번째 글자가 따옴표 안의 글자인이 아닌지 확인해 줌
+
+~~~
+name = "nico"
+print(name.startswith("n"))
+~~~
+
+***.replace("문자", "문자")***
+
+<br>해당 문자를 다른 문자로 대체함
+
+~~~
+name = "nico"
+print(name.replace("o", "><"))
+~~~
+
+>nic><
+
+***.endswith("문자")***
+
+~~~
+name = "nico"
+print(name.endswith("f"))
+~~~
+
+>False
+
+## 다른 형태
+
+~~~
+print("nico".endswith("f"))
+~~~
+
+## 더 많은 메소드
+
++ clear()
++ reverse()
++ append("data")
+
+## tuple
+
+~~~
+days = ("Mon", "Tue", "Wed")
+days.append("Fri")
+~~~
+
+>에러
+
+튜플은 수정할 수 없다.
+
+
+## dictionary
+
+***속성을 가지고 있는 데이터를 만들 때 쓰임***
+
+~~~
+player = {
+  'name' : 'nico', 
+  'age' : 12,
+  'alive' : True
+}
+print(player)
+~~~
+
+>{'name': 'nico', 'age': 12, 'alive': True}
+
+~~~
+player = {
+  'name' : 'nico', 
+  'age' : 12,
+  'alive' : True,
+  'fav_food' : ["pizza", "burger"]
+}
+print(player.get('age'))
+print(player['fav_food'])
+~~~
+
+>12<br>['pizza', 'burger']
+
+데이터 삭제
+
+~~~
+player = {
+  'name' : 'nico', 
+  'age' : 12,
+  'alive' : True,
+  'fav_food' : ["pizza", "burger"]
+}
+player.pop('age')
+print(player)
+~~~
+
+>{'name': 'nico', 'alive': True, 'fav_food': ['pizza', 'burger']}
+
+데이터 추가
+
+~~~
+player = {
+  'name' : 'nico', 
+  'age' : 12,
+  'alive' : True,
+  'fav_food' : ["pizza", "burger"]
+}
+player['xp'] = 1500
+print(player)
+~~~
+
+>{'name': 'nico', 'age': 12, 'alive': True, 'fav_food': ['pizza', 'burger'], 'xp': 1500}
+
+~~~
+player = {
+  'name' : 'nico', 
+  'age' : 12,
+  'alive' : True,
+  'fav_food' : ["pizza", "burger"]
+}
+player['fav_food'].append("noddle")
+print(player['fav_food'])
+~~~
+
+>['pizza', 'burger', 'noddle']
