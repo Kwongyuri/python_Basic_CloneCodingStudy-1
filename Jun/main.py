@@ -1,4 +1,4 @@
-print("\n\n")
+print("\n")
 
 
 #2023.02.17 Python 스터디 실습
@@ -147,18 +147,94 @@ print("\n\n")
 #   distance = distance + 1
 
 
-from random import randint
+# from random import randint
 
-print("Welcom to Python Casino")
-pc_choice = randint(1, 50)
+# print("Welcom to Python Casino")
+# pc_choice = randint(1, 50)
 
-playing = True
-while playing:
-  user_choice = int(input("Choose number:"))
-  if user_choice == pc_choice:
-    print("You win!")
-    playing = False
-  elif user_choice >  pc_choice:
-    print("Lower!")
-  elif user_choice < pc_choice:
-    print("Higher!")
+# playing = True
+# while playing:
+#   user_choice = int(input("Choose number:"))
+#   if user_choice == pc_choice:
+#     print("You win!")
+#     playing = False
+#   elif user_choice >  pc_choice:
+#     print("Lower!")
+#   elif user_choice < pc_choice:
+#     print("Higher!")
+
+
+# --------------------------------------------------------------------
+#2023.02.20 Python 스터디 실습
+
+# days_of_week = ["mon", "Tue", "Wed", "Thur", "Fri"]
+
+# print(days_of_week)
+
+# name = "abc"
+# print(name.upper())
+
+
+# name ="nico"
+# print(name.capitalize())
+
+
+# name = "nico"
+# print(name.replace("o", "><"))
+
+
+# name = "nico"
+# print(name.endswith("f"))
+
+
+# print("nico".endswith("f"))
+
+# days_of_week = ["mon", "Tue", "Wed", "Thur", "Fri"]
+# print(days_of_week)
+# # days_of_week.clear()
+# # days_of_week.reverse()
+# days_of_week.append("Sun")
+# days_of_week.remove("Fri")
+# print(days_of_week)
+
+
+# days_of_week = ["mon", "Tue", "Wed", "Thur", "Fri"]
+# print(days_of_week[3])
+
+
+# days_of_week = [1, 2, 3, True, False, "hi", "black", [ 1, 2, 3, [False, True]]]
+# print(days_of_week[7][3][1])
+
+
+# days = ("Mon", "Tue", "Wed")
+# days.append("Fri")
+
+
+# player = {
+#   'name' : 'nico', 
+#   'age' : 12,
+#   'alive' : True,
+#   'fav_food' : ["pizza", "burger"]
+# }
+# player.pop('age')
+# print(player)
+
+
+# player = {
+#   'name' : 'nico', 
+#   'age' : 12,
+#   'alive' : True,
+#   'fav_food' : ["pizza", "burger"]
+# }
+# player['xp'] = 1500
+# print(player)
+
+
+player = {
+  'name' : 'nico', 
+  'age' : 12,
+  'alive' : True,
+  'fav_food' : ["pizza", "burger"]
+}
+player['fav_food'].append("noddle")
+print(player['fav_food'])
