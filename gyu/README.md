@@ -197,3 +197,42 @@ while playing:
  elif user_choice < pc_choice:
    print("higher!")
 ~~~
+
+
+## 파이썬 스터디 4일차
+
+### 필기 및 실습
+
++ 메소드 => 데이터와 결합된 function
++ 데이터.메소드명()
++ 매우 다양함 [startswith(첫글자 확인), endswith(끝글자 확인), replace(교체), upper(대문자로 교체),count(수 세기), clear(리스트 내용 모두 삭제), append(리스트에 내용 추가) 등]
+~~~
+ #실습
+name = "jg"
+name.upper()
+~~~
+
++ 리스트 => 이름=[내용], 어떤 형식이든 넣을 수 있음
+~~~
+days = ["mon", "tue", "wed"]
+print(days[0])
+~~~
+
++ 튜플 => 이름(내용), 리스트와 다르게 불변성을 가짐(변경 불가), 아이템에 접근할땐 대괄호 사용
+~~~
+days2 = ("mon", "tue", "wed")
+print(days2[0])
+~~~
+
++ dictionary => 이름={내용}, 인덱스를 써야하는 리스트와는 다르게 키-값 쌍으로 이루어져 있기 때문에 키를 통해 값 호출 가능
+~~~
+player = {
+    'name' : 'jg',
+    'age' : 23,
+    'alive' : True,
+    'fav_food' : ['cola', 'apple']
+}
+
+print(player['age']) #player 딕셔너리의 age 출력
+player['fav_food'].append("noodle") #player 딕셔너리의 fav_food 리스트에 noodle 추가
+~~~
