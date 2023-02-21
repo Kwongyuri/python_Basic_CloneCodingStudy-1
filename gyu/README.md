@@ -236,3 +236,35 @@ player = {
 print(player['age']) #player 딕셔너리의 age 출력
 player['fav_food'].append("noodle") #player 딕셔너리의 fav_food 리스트에 noodle 추가
 ~~~
+
+
+## 파이썬 스터디 5일차
+
+### 필기 및 실습
+
+~~~
+from requests import get
+
+websites = (
+    "https://google.com",
+    "naver.com",
+    "twitter.com",
+    "facebook.com"
+)
+
+results={}
+
+for website in websites: #리스트(투플) 내 각 아이템에 대하여 코드 실행
+  if not website.startswith("https://"): #website가 https://로 시작하지 않으면
+   website = f"https://{website}" #website에 https://를 붙임
+  # print(website)
+  response = get(website) #get함수는 웹사이트의 응답을 리턴
+  if response.status_code == 200: #staus code => 결과에서 상태(숫자)만 리턴함
+    results[website]  =  "ok" #새로운 키(해당하는 website)를 results 닥셔너리에 추가, ok라고 정의(=)
+  else:   
+    results[website]  =  "failed"
+
+print(results) 
+~~~
+
++ 참고: Pypi는 라이브러리를 검색할 수 있는 웹 사이트이다.
