@@ -230,11 +230,63 @@ print("\n")
 # print(player)
 
 
-player = {
-  'name' : 'nico', 
-  'age' : 12,
-  'alive' : True,
-  'fav_food' : ["pizza", "burger"]
-}
-player['fav_food'].append("noddle")
-print(player['fav_food'])
+# player = {
+#   'name' : 'nico', 
+#   'age' : 12,
+#   'alive' : True,
+#   'fav_food' : ["pizza", "burger"]
+# }
+# player['fav_food'].append("noddle")
+# print(player['fav_food'])
+
+
+# --------------------------------------------------------------------
+#2023.02.21 Python 스터디 실습
+
+# websites = (
+#   "google.com",
+#   "airbnb.com",
+#   "https://twitter.com",
+#   "facebook.com",
+#   "https://tiktok.com"
+# )
+
+# for website in websites:
+#   if website.startswith("https://"):
+#     print("good to go")
+#   else:
+#     print('we have to fix it')
+
+
+# websites = (
+#   "google.com",
+#   "airbnb.com",
+#   "https://twitter.com",
+#   "facebook.com",
+#   "https://tiktok.com"
+# )
+
+# for website in websites:
+#   if not website.startswith("https://"): #if website.startswith("https://"): == False
+#     website = f"https://{website}"
+#   print(website)
+
+
+from requests import get
+websites = (
+  "google.com",
+  "airbnb.com",
+  "https://twitter.com",
+  "facebook.com",
+  "https://tiktok.com"
+)
+results = {}
+for website in websites:
+  if not website.startswith("https://"): #if website.startswith("https://"): == False
+    website = f"https://{website}"
+  response = get(website)
+  if response.status_code == 200:
+    results[website] = "OK"
+  else:
+    results[website] = "FAILED"
+print(results)
