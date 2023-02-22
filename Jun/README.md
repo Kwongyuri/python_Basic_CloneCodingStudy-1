@@ -487,3 +487,97 @@ print(player['fav_food'])
 ~~~
 
 >['pizza', 'burger', 'noddle']
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###  2023년 2월 21일 파이썬 스터디 공부
+
+>for, pypi, requests
+
+## for
+
+~~~
+website = (
+  "google.com",
+  "airbnb.com",
+  "twitter.com",
+  "facebook.com"
+)
+
+for potato in website:
+  print("potato is equals to", potato)
+~~~
+
+>potato is equals to google.com<br>potato is equals to airbnb.com<br>potato is equals to twitter.com<br>potato is equals to facebook.com
+
+~~~
+websites = (
+  "google.com",
+  "airbnb.com",
+  "https://twitter.com",
+  "facebook.com",
+  "https://tiktok.com"
+)
+
+for website in websites:
+  if website.startswith("https://"):
+    print("good to go")
+  else:
+    print('we have to fix it')
+~~~
+
+>we have to fix it<br>we have to fix it<br>good to go<br>we have to fix it<br>good to go
+
+## pypi
+
+https://pypi.org/
+
+>파이썬 모듈을 모아 놓은 사이트
+
+## requests
+
+라이브러리 다운로드하기 2.28.1
+
+~~~
+websites = (
+  "google.com",
+  "airbnb.com",
+  "https://twitter.com",
+  "facebook.com",
+  "https://tiktok.com"
+)
+
+for website in websites:
+  if not website.startswith("https://"): #if website.startswith("https://"): == False
+    website = f"https://{website}"
+  response = get(website)
+  print(response)
+  ~~~
+
+  get은 웹사이트의 response를 return한다
+
+  ><Response [200]><br><Response [200]><br><Response [200]><br><Response [200]><br><Response [200]>
+
+  요청이 성공적으로 되었다는 뜻
+
+  ~~~
+  from requests import get
+websites = (
+  "google.com",
+  "airbnb.com",
+  "https://twitter.com",
+  "facebook.com",
+  "https://tiktok.com"
+)
+results = {}
+for website in websites:
+  if not website.startswith("https://"): #if website.startswith("https://"): == False
+    website = f"https://{website}"
+  response = get(website)
+  if response.status_code == 200:
+    results[website] = "OK"
+  else:
+    results[website] = "FAILED"
+print(results)
+~~~
+
+>{'https://google.com': 'OK', 'https://airbnb.com': 'OK', 'https://twitter.com': 'OK', 'https://facebook.com': 'OK', 'https://tiktok.com': 'OK'}
