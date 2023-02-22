@@ -272,21 +272,128 @@ print("\n")
 #   print(website)
 
 
+# from requests import get
+# websites = (
+#   "google.com",
+#   "airbnb.com",
+#   "https://twitter.com",
+#   "facebook.com",
+#   "https://tiktok.com"
+# )
+# results = {}
+# for website in websites:
+#   if not website.startswith("https://"): #if website.startswith("https://"): == False
+#     website = f"https://{website}"
+#   response = get(website)
+#   if response.status_code == 200:
+#     results[website] = "OK"
+#   else:
+#     results[website] = "FAILED"
+# print(results)
+
+
+# --------------------------------------------------------------------
+#2023.02.22 Python 스터디 실습
+
+# from requests import get
+
+# base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+# search_term = "python"
+# response = get(f"{base_url}{search_term}")
+
+# if response.status_code != 200:
+#   print("Can't request website")
+# else:
+#   print(response.text)
+
+
+# from requests import get
+# from bs4 import BeautifulSoup
+
+# base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+# search_term = "python"
+# response = get(f"{base_url}{search_term}")
+
+# if response.status_code != 200:
+#   print("Can't request website")
+# else:
+#   soup = BeautifulSoup(response.text, "html.parser")
+#   print(soup.find_all('section', class_ = "jobs"))
+
+
+# from requests import get
+# from bs4 import BeautifulSoup
+
+# base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+# search_term = "python"
+# response = get(f"{base_url}{search_term}")
+
+# if response.status_code != 200:
+#   print("Can't request website")
+# else:
+#   soup = BeautifulSoup(response.text, "html.parser")
+#   jobs = soup.find_all('section', class_ = "jobs")
+#   print(len(jobs))
+#   for job_section in jobs:
+#     job_posts = job_section.find_all('li')
+#     job_posts.pop(-1)
+#     for post in job_posts:
+#       print(post)
+#       print("//////////////////")
+
+
+# from requests import get
+# from bs4 import BeautifulSoup
+
+# base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+# search_term = "python"
+# response = get(f"{base_url}{search_term}")
+
+# if response.status_code != 200:
+#   print("Can't request website")
+# else:
+#   soup = BeautifulSoup(response.text, "html.parser")
+#   jobs = soup.find_all('section', class_ = "jobs")
+#   # print(len(jobs))
+#   for job_section in jobs:
+#     job_posts = job_section.find_all('li')
+#     job_posts.pop(-1)
+#     for post in job_posts:
+#       # print(post)
+#       anchors = post.find_all('a')
+#       anchor = anchors[1]
+#       print(anchor['href'])
+
+
+# list_of_numbers = [1, 2, 3]
+
+# fisrt, second, third = list_of_numbers
+# print(fisrt, second, third)
+
+
+
 from requests import get
-websites = (
-  "google.com",
-  "airbnb.com",
-  "https://twitter.com",
-  "facebook.com",
-  "https://tiktok.com"
-)
-results = {}
-for website in websites:
-  if not website.startswith("https://"): #if website.startswith("https://"): == False
-    website = f"https://{website}"
-  response = get(website)
-  if response.status_code == 200:
-    results[website] = "OK"
-  else:
-    results[website] = "FAILED"
-print(results)
+from bs4 import BeautifulSoup
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+search_term = "python"
+response = get(f"{base_url}{search_term}")
+
+if response.status_code != 200:
+  print("Can't request website")
+else:
+  soup = BeautifulSoup(response.text, "html.parser")
+  jobs = soup.find_all('section', class_ = "jobs")
+  # print(len(jobs))
+  for job_section in jobs:
+    job_posts = job_section.find_all('li')
+    job_posts.pop(-1)
+    for post in job_posts:
+      anchors = post.find_all('a')
+      anchor = anchors[1]
+      link = anchor['href']
+      company, kind, region = anchor.find_all('span', class_ = "company")
+      title = anchor.find('span', class_='title')
+      print(company, kind, region, title)
+      print("//////////////////")
+      print("//////////////////")

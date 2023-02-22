@@ -125,6 +125,7 @@ say_hello("User050210", 101)
 하나는 default 값을 쓰고 다른 하나는 값을 넣고 싶을 때 하는 방법 찾아보기<br>
 >->기본 매개변수를 사용할 때 한가지 지켜야 할 점은, 기본 매개변수를 non-default value parameter의 앞에 배치해야 한다는 점이다.<br>
 출처:https://url.kr/whzlb8
+<br><h6>또는</h6>say_hello(user_age = 101)이렇게 할 수도 있다.
 
 ## return
 
@@ -581,3 +582,146 @@ print(results)
 ~~~
 
 >{'https://google.com': 'OK', 'https://airbnb.com': 'OK', 'https://twitter.com': 'OK', 'https://facebook.com': 'OK', 'https://tiktok.com': 'OK'}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###  2023년 2월 22일 파이썬 스터디 공부
+
+>웹 스크래핑 기초, wwr, len
+
+## WWR
+
+https://weworkremotely.com/
+
+~~~
+https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term=검색어
+ # 예시
+https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term=python
+~~~
+
+# 웹 스크래핑 기초
+
+웹 사이트에 python 검색
+
+~~~
+from requests import get
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+search_term = "python"
+response = get(f"{base_url}{search_term}")
+
+if response.status_code != 200:
+  print("Can't request website")
+else:
+  print(response.text)
+~~~
+
+성공적으로 웹 사이트에 request를 보냈을 때
+~~~
+...
+        jQuery(this).parents('.outsider-select').find('select').trigger('chosen:open');    
+      }
+    });
+
+    // Warning - Library is no longer maintained, refer: https://github.com/bbarakaci/fixto    // Update Library to https://cdnjs.com/libraries/stickybits
+    var stickyEl = jQuery('#advanced_search_filters').fixTo('#side_filter_column', {       
+      top: 100,
+      mindBottomPadding: true
+    });
+  });
+</script></body></html>
+~~~
+
+## beautifulsoup
+
+request를 보낸 다음 받아온 텍스트에서 우리가 필요로 하는 데이터를 검색하기 위해서 필요함
+
+~~~
+from requests import get
+from bs4 import BeautifulSoup
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+search_term = "python"
+response = get(f"{base_url}{search_term}")
+
+if response.status_code != 200:
+  print("Can't request website")
+else:
+  soup = BeautifulSoup(response.text, "html.parser")
+  print(soup.find_all('title'))
+~~~
+
+<br>title을 찾아서 출력함
+
+~~~
+from requests import get
+from bs4 import BeautifulSoup
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+search_term = "python"
+response = get(f"{base_url}{search_term}")
+
+if response.status_code != 200:
+  print("Can't request website")
+else:
+  soup = BeautifulSoup(response.text, "html.parser")
+  print(soup.find_all('section', class_ = "jobs"))
+~~~
+
+section에서 class가 jobs인 것들을 출력함
+
+~~~
+from requests import get
+from bs4 import BeautifulSoup
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+search_term = "python"
+response = get(f"{base_url}{search_term}")
+
+if response.status_code != 200:
+  print("Can't request website")
+else:
+  soup = BeautifulSoup(response.text, "html.parser")
+  print(soup.find_all('section', class_ = "jobs"))
+~~~
+
+~~~
+[<section class="jobs" id="category-2"><article><h2><a href="/categories/remote-full-stack-programming-jobs">Full-Stack Programming Jobs</a><span class="latest_post">Latest post 5 days ago</span><a href="/categories/remote-full-stack-programming-jobs.rss"><img class="feed" height="16" src="https://
+...
+~~~
+
+## len 
+
+list, tuple의 길이를 준다
+
+~~~
+from requests import get
+from bs4 import BeautifulSoup
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+search_term = "python"
+response = get(f"{base_url}{search_term}")
+
+if response.status_code != 200:
+  print("Can't request website")
+else:
+  soup = BeautifulSoup(response.text, "html.parser")
+  jobs = soup.find_all('section', class_ = "jobs")
+  print(len(jobs))
+~~~
+
+>2
+
+## list
+
+~~~
+list_of_numbers = [1, 2, 3]
+
+fisrt, second, third = list_of_numbers
+print(fisrt, second, third)
+~~~
+
+>1 2 3
+
+list의 순서를 안다면 내용 편집이 더 쉬워진다.
+
