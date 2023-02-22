@@ -239,7 +239,6 @@ player['fav_food'].append("noodle") #player 딕셔너리의 fav_food 리스트�
 
 
 ## 파이썬 스터디 5일차
-
 ### 필기 및 실습
 
 ~~~
@@ -268,3 +267,39 @@ print(results)
 ~~~
 
 + 참고: Pypi는 라이브러리를 검색할 수 있는 웹 사이트이다.
+
+
+## 파이썬 스터디 6일차
+### 필기 및 실습
+
+~~~
+from requests import get
+from bs4 import BeautifulSoup #beatifulsoup => 웹사이트(html)의 데이터를 받아올수 있게 해주는 라이브러리
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=✓&term="
+search_term = "python"
+
+response = get(f"{base_url}{search_term}") #주소(base_url + search_term)의 응답을 받아옴
+
+if response.status_code != 200:
+    print("can't request website")
+
+else:
+    soup = BeautifulSoup(response.text, "html.parser") # html.parser => html을 보내준다고 beatifulsoup에 전달
+    jobs = soup.find_all('section', class_="jobs")
+     #section(직업 전체) => li(직업 기업별로 분류) => anchor(직업 정보)
+     #section 중 class가 jobs인 section의 내용을 가져옴
+     #class_="jobs" => keyword argument(순서(위치)를 신경 쓰지 않는 경우)
+    for job_section in jobs:
+        job_posts = job_section.find_all("li") #모든 li(직업 리스트)를 찾아냄
+        job_posts.pop(-1) #job list에서 마지막 항목 제거(view all 버튼이 출력되지 않도록 함)
+        for post in job_posts: #job posts에서 anchors를 추출하고, anchors에서 href 저장 및 company가 들어간 span(세부 정보)를 추출(li 수대로 반복)
+            anchors = post.find_all('a') #job_posts에서 anchor를 찾아냄
+            anchor = anchors[1] #두번째 anchor가 필요하기 때문에 두번째 항목을 달라고 요청
+            link = anchor['href']
+            company, kind, region = anchor.find_all('span', class_="company") #span 클래스 중 company가 들어간 클래스를 차례로 추출
+            title = anchor.find('span', class_ = 'title')
+            print(company, kind, region, title)
+            print("/////////////////")
+            print("/////////////////")
+            
