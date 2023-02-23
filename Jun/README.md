@@ -725,3 +725,103 @@ print(fisrt, second, third)
 
 list의 순서를 안다면 내용 편집이 더 쉬워진다.
 
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###  2023년 2월 23일 파이썬 스터디 공부
+
+>.string, selenium, 데이터 저장
+
+태그 안의 문자열만 출력
+
+## .string
+
+~~~
+from requests import get
+from bs4 import BeautifulSoup
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+search_term = "python"
+response = get(f"{base_url}{search_term}")
+
+if response.status_code != 200:
+  print("Can't request website")
+else:
+  soup = BeautifulSoup(response.text, "html.parser")
+  jobs = soup.find_all('section', class_ = "jobs")
+  # print(len(jobs))
+  for job_section in jobs:
+    job_posts = job_section.find_all('li')
+    job_posts.pop(-1)
+    for post in job_posts:
+      anchors = post.find_all('a')
+      anchor = anchors[1]
+      link = anchor['href']
+      company, kind, region = anchor.find_all('span', class_ = "company")
+      title = anchor.find('span', class_='title')
+      print(company.string, kind.string, region.string, title.string)
+~~~
+
+>Proxify AB Full-Time Anywhere in the World Senior Python Engineer: Long-term job - 100% remote<br>Lemon.io Full-Time Latin America Only/Europe Only/UK Only/Canada Only Full-stack Developer (Python/React)<br>Trustworthy Full-Time Anywhere in the World Full Stack Software Engineer (React / Python)<br>OpenCraft Full-Time Anywhere in the World Senior Open Source Developer & DevOps (Python, Django, React, AWS/OpenStack)<br>NannyML Full-Time Anywhere in the World Senior Full-stack Engineer with Python<br>Optimile Full-Time Europe Only (Senior) Python Full Stack Software Developer<br>Input Logic Full-Time Canada Only Python Developer<br>Doximity Full-Time Americas Only Python Platform Engineer
+
+## 데이터 저장
+
+~~~
+from requests import get
+from bs4 import BeautifulSoup
+
+base_url = "https://weworkremotely.com/remote-jobs/search?utf8=%E2%9C%93&term="
+search_term = "python"
+response = get(f"{base_url}{search_term}")
+
+if response.status_code != 200:
+  print("Can't request website")
+else:
+  results = []
+  soup = BeautifulSoup(response.text, "html.parser")
+  jobs = soup.find_all('section', class_ = "jobs")
+  for job_section in jobs:
+    job_posts = job_section.find_all('li')
+    job_posts.pop(-1)
+    for post in job_posts:
+      anchors = post.find_all('a')
+      anchor = anchors[1]
+      link = anchor['href']
+      company, kind, region = anchor.find_all('span', class_ = "company")
+      title = anchor.find('span', class_='title')
+      job_data = {
+        'company' : company.string,
+        'region' : region.string,
+        'position' : title.string
+      }
+      results.append(job_data)
+  for result in results:
+    print(result)
+~~~
+
+results라는 리스트에 job_data라는 딕셔너리들을 저장한다
+
+### indeed 스크래퍼
+
+우리가 만든 프로그램을 다른 파일에 저장하고 함수로 만들어서 main.py에 import 해서 사용한다<br>권한 문제로 403을 반한다. 때문에 selenium이라는 다른 라이브러리를 사용해서 스크래핑을 해야된다.
+
+~~~
+job_list.find_all('li', recursive=False)
+~~~
+
+>recursive=False<br>딱 한 단계 아래의 태그만 찾아낸다
+
+## selenium
+
+~~~
+from requests import get
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument("--no_sandbox")
+options.add_argument("--disable-dev-shm-usage")
+browser = webdriver.Chrome(options=options)
+browser.get("https://kr.indeed.com/jobs?q=python&l=&from=searchOnHP&vjk=1015284880e2ff62")
+print(browser.page_source)
+~~~
