@@ -302,4 +302,81 @@ else:
             print(company, kind, region, title)
             print("/////////////////")
             print("/////////////////")
-            
+~~~
+
+## 파이썬 스터디 7일차
+### 필기 및 실습
+
++ weworkremotely용 웹스크래퍼 완성
+  1. 정보 저장 및 함수화
+~~~
+from requests import get
+from bs4 import BeautifulSoup #beatifulsoup => 웹사이트(html)의 데이터를 받아올수 있게 해주는 라이브러리
+
+def extract_jobs(keyword):
+  base_url = "https://weworkremotely.com/remote-jobs/search?utf8=✓&term="
+  keyword
+
+  response = get(f"{base_url}{keyword}") #주소(base_url + keyword)의 응답을 받아옴
+
+  if response.status_code != 200:
+    print("can't request website")
+
+  else:
+    results = []
+    soup = BeautifulSoup(response.text, "html.parser") # html.parser => html을 보내준다고 beatifulsoup에 전달, response.text => 웹사이트의 코드, beatifulsoup => response.text를 받아와서 python의 데이터 구조로 변환
+    jobs = soup.find_all('section', class_="jobs") #section(직업 전체) => li(직업 기업별로 분류) => anchor(직업 정보)
+                                                   #section 중 class가 jobs인 section의 내용을 가져옴
+                                                   #class_="jobs" => keyword argument(순서(위치)를 신경 쓰지 않는 경우)
+    for job_section in jobs:
+        job_posts = job_section.find_all("li") #모든 li(직업 리스트)를 찾아냄
+        job_posts.pop(-1) #job list에서 마지막 항목 제거(view all 버튼이 출력되지 않도록 함)
+        for post in job_posts: #job posts에서 anchors를 추출하고, anchors에서 href 저장 및 company가 들어간 span(세부 정보)를 추출(li 수대로 반복)
+            anchors = post.find_all('a') #job_posts에서 anchor를 찾아냄
+            anchor = anchors[1] #두번째 anchor가 필요하기 때문에 두번째 항목을 달라고 요청
+            link = anchor['href']
+            company, kind, region = anchor.find_all('span', class_="company") #span 클래스 중 company가 들어간 클래스를 차례로 추출
+            title = anchor.find('span', class_ = 'title')
+            job_data = {  #글자만을 추출하여 job_data 딕셔너리에 저장
+                'link': f"https://weworkremotely.com/{link}",
+                'company': company.string,
+                'region': region.string,
+                'position': title.string
+            }
+            results.append(job_data)
+    for result in results:
+        return results     
+~~~
+
+ 2. 함수 사용
+ ~~~
+ from requests import get
+ from bs4 import BeautifulSoup 
+ from extractors.study6 import extract_jobs
+
+ jobs = extract_jobs("python") #검색하고자 하는 단어 입력
+ print(jobs)
+ ~~~
+
++ indeed용 웹스크래퍼
+
+~~~
+from bs4 import BeautifulSoup
+from selenium import webdriver #셀레니움
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_experimental_option("detach", True)
+
+browser = webdriver.Chrome(options=options)
+browser.get("http://www.indeed.com/jobs?q=python&limit=50")
+
+soup = BeautifulSoup(browser.page_source, "html.parser")
+job_list = soup.find("ul", class_="jobsearch_ResultsList")
+jobs = job_list.find_all('li', recursive=False) #recursive=False => ul 바로 아래의 Li만 찾기 위해서
+for job in jobs:
+    zone = job.find("div", class_ = "mosaic-zone")
+
+    if zone == None: #직업 정보를 li 안에 있다면 (NONE => 무언가 없을 때))
+     print("job li")
+~~~
