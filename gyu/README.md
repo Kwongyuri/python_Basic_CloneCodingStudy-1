@@ -372,11 +372,90 @@ browser = webdriver.Chrome(options=options)
 browser.get("http://www.indeed.com/jobs?q=python&limit=50")
 
 soup = BeautifulSoup(browser.page_source, "html.parser")
-job_list = soup.find("ul", class_="jobsearch_ResultsList")
+job_list = soup.find("ul", class_="jobsearch-ResultsList")
 jobs = job_list.find_all('li', recursive=False) #recursive=False => ul 바로 아래의 Li만 찾기 위해서
 for job in jobs:
     zone = job.find("div", class_ = "mosaic-zone")
 
     if zone == None: #직업 정보를 li 안에 있다면 (NONE => 무언가 없을 때))
      print("job li")
+~~~
+
+
+## 파이썬 스터디 8일차
+### 필기 및 실습
+
++ indeed를 활용한 웹스크래퍼 제작 완료 및 함수 정의
+
+~~~
+
+from bs4 import BeautifulSoup
+from selenium import webdriver #셀레니움
+from selenium.webdriver.chrome.options import Options
+
+def get_page_count(keyword): #페이지 수 세기(스크래핑 해야할 페이지 수 세기)
+    options = Options()
+    options.add_experimental_option("detach", True)
+    response = webdriver.Chrome(options=options)
+
+    base_url = "https://www.indeed.com/jobs?q="
+    response.get(f"{base_url}{keyword}")
+
+
+    soup = BeautifulSoup(response.page_source, "html.parser")
+    pagination = soup.find("ul", class_ = "pagination-list")
+
+    if pagination == None:
+        return 1 #pagination이 None이면(페이지가 하나밖에 없으면) 1을 리턴
+    
+    pages = pagination.find("li", recursive=False)
+
+    count = len(pages)
+
+    if count >= 5:
+        return 5
+    
+    else:
+        return count
+    
+-------------------------------------------------------------------
+
+def extract_indeed_jobs(keyword): #페이지 별로 직업정보 스크래핑을 반복 
+    pages = get_page_count(keyword)
+    print("Found", pages, "pages")
+    results = []
+    for page in range(pages): #range => 순서 객체를 리턴해주는 함수(즉시 List를 생성)
+
+        options = Options()
+        options.add_experimental_option("detach", True)
+        response = webdriver.Chrome(options=options)
+        
+        base_url = "https://www.indeed.com/jobs"
+        final_url = f"{base_url}?q={keyword}&start={page*10}"
+        print("Requesting", final_url)
+        response.get(final_url)
+
+        soup = BeautifulSoup(response.page_source, "html.parser")
+        job_list = soup.find("ul", class_="jobsearch-ResultsList")
+        jobs = job_list.find_all('li', recursive=False) #recursive=False => ul 바로 아래의 Li만 찾기 위해서
+        for job in jobs:
+            zone = job.find("div", class_ = "mosaic-zone")
+
+            if zone == None: #직업 정보를 li 안에 있다면 (NONE => 무언가 없을 때))
+                    #  h2 = job.find("h2", class_="jobTitle") 
+                    #  a = h2.find("a")
+                anchor = job.select_one("h2 a") #h2를 선택하여 들어간 다음, a를 가진 리스트 하나만 가져와라.
+                title = anchor['aria-label']
+                link = anchor['href']
+                company = job.find("span", class_="companyName")
+                location = job.find("div", class_="companyLocation")
+
+                job_data = {
+                    'link': f"https://www.indeed.com{link}",
+                    'company': company.string,
+                    'location': location.string,
+                    "postion": "" #aria label
+                    }
+                results.append(job_data)
+    return results
 ~~~
