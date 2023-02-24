@@ -825,3 +825,63 @@ browser = webdriver.Chrome(options=options)
 browser.get("https://kr.indeed.com/jobs?q=python&l=&from=searchOnHP&vjk=1015284880e2ff62")
 print(browser.page_source)
 ~~~
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###  2023년 2월 24일 파이썬 스터디 공부
+
+>selenium, bs4, .select, 함수 호출
+
+## indeed에서 bs4 사용하기
+
+~~~
+from requests import get
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+from  extractors.wwr import extract_wwr_jobs
+
+options = Options()
+options.add_argument("--no_sandbox")
+options.add_argument("--disable-dev-shm-usage")
+browser = webdriver.Chrome(options=options)
+browser.get("https://kr.indeed.com/jobs?q=python&l=&from=searchOnHP&vjk=1015284880e2ff62")
+soup = BeautifulSoup(browser.page_source, "html.parser")
+~~~
+
+## .select
+
+~~~
+anchor = job.select("h2 a")
+~~~
+>h2 태그 안에 있는 a를 찾는다.
+
+## 페이지 수 확인하기
+
+~~~
+def get_page_count(keyword):
+    options = Options()
+    options.add_argument("--no_sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    browser = webdriver.Chrome(options=options)
+    browser.get(f"https://kr.indeed.com/jobs?q={keyword}&l=&from=searchOnHP&vjk=1015284880e2ff62")
+    soup = BeautifulSoup(browser.page_source, "html.parser")
+    pagination = soup.find("nav", attrs={"aria-label": "pagination"})
+    if pagination == None:
+        return 1
+    pages = pagination.select("div a")
+    count = len(pages)
+    if count >= 5:
+        return 5
+    else:
+        return count
+~~~
+
+## 함수 호출
+
+~~~
+from extractors.wwr import extract_wwr_jobs
+from extractors.indeed import get_page_count, extract_indeed_jobs
+~~~
+
+extractors 파일에 있는 get_page_count, extract_indeed_jobs 함수 불러오기

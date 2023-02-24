@@ -436,7 +436,6 @@ print("\n")
 #     print(result)
 
 
-
 # from requests import get
 # from bs4 import BeautifulSoup
 # from  extractors.wwr import extract_wwr_jobs
@@ -459,13 +458,28 @@ print("\n")
 # for job in jobs:
 #   print(job)
 
+# from requests import get
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+
+# options = Options()
+# options.add_argument("--no_sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+# browser = webdriver.Chrome(options=options)
+# browser.get("https://kr.indeed.com/jobs?q=python&l=&from=searchOnHP&vjk=1015284880e2ff62")
+# print(browser.page_source)
+
+
+# --------------------------------------------------------------------
+#2023.02.24 Python 스터디 실습
+
 from requests import get
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+from extractors.wwr import extract_wwr_jobs
+from extractors.indeed import get_page_count, extract_indeed_jobs
 
-options = Options()
-options.add_argument("--no_sandbox")
-options.add_argument("--disable-dev-shm-usage")
-browser = webdriver.Chrome(options=options)
-browser.get("https://kr.indeed.com/jobs?q=python&l=&from=searchOnHP&vjk=1015284880e2ff62")
-print(browser.page_source)
+
+jobs = extract_indeed_jobs("python")
+print(len(jobs))
