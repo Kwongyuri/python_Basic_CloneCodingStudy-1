@@ -459,3 +459,33 @@ def extract_indeed_jobs(keyword): #페이지 별로 직업정보 스크래핑을
                 results.append(job_data)
     return results
 ~~~
+
+
+## 파이썬 스터디 9일차
+### 필기 및 실습
+~~~
+ #만들었던 함수 호출하여 결과 저장하기
+
+from requests import get
+from bs4 import BeautifulSoup
+from selenium.webdriver.chrome.options import Options
+from extractors.study7 import extract_indeed_jobs
+from extractors.study6 import extract_jobs
+
+keyword = input("what do you want to search for?")
+
+indeed = extract_indeed_jobs(keyword)
+extj = extract_jobs(keyword)
+
+jobs = indeed + extj
+
+file = open(f"{keyword}.csv", "w") #csv로(입력된 keyword를 제목으로) 저장(쓰기 전용으로) => 이름과 모드 설정
+
+file = open(f"{keyword}.csv", "w") #csv로(입력된 keyword를 제목으로) 저장(쓰기 전용으로) => 이름과 모드 설정
+
+file.write("Position, Company, Location, URL\n") #Position, Company, Location, URL을 쉼표로 구분하여 열마다 삽입 후 줄바꿈
+for job in jobs:
+    file.write(f"{job['position']}, {job['company']}, {job['location']},{job['link']}\n") # 스크랩한 정보(Position, Company, Location, URL)를 열마다 삽입 후 줄바꿈
+
+file.close()
+~~~
