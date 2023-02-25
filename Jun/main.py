@@ -473,13 +473,52 @@ print("\n")
 # --------------------------------------------------------------------
 #2023.02.24 Python 스터디 실습
 
-from requests import get
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
+# from requests import get
+# from selenium import webdriver
+# from selenium.webdriver.chrome.options import Options
+# from bs4 import BeautifulSoup
+# from extractors.wwr import extract_wwr_jobs
+# from extractors.indeed import get_page_count, extract_indeed_jobs
+
+
+# jobs = extract_indeed_jobs("python")
+# print(len(jobs))
+
+
+# --------------------------------------------------------------------
+#2023.02.25 Python 스터디 실습
+
+# from extractors.indeed import extract_indeed_jobs
+# from extractors.wwr import extract_wwr_jobs
+
+# keyword = input("What do you want to search for?")
+# indeed = extract_indeed_jobs(keyword)
+# wwr = extract_wwr_jobs(keyword)
+
+# jobs = indeed + wwr
+
+# for job in jobs:
+#     print(job)
+    
+
+from extractors.indeed import extract_indeed_jobs
 from extractors.wwr import extract_wwr_jobs
-from extractors.indeed import get_page_count, extract_indeed_jobs
 
+keyword = input("What do you want to search for?")
 
-jobs = extract_indeed_jobs("python")
-print(len(jobs))
+indeed = extract_indeed_jobs(keyword)
+wwr = extract_wwr_jobs(keyword)
+
+jobs = indeed + wwr
+
+for job in jobs:
+    print(job)
+
+file = open(f"{keyword}.csv", "w")
+file.write("Position, Company, Location, URL\n")
+
+for job in jobs:
+    file.write(f"{job['position']}, {job['company']}, {job['location']}, {job['link']}\n")
+
+file.close()
+

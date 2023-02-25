@@ -885,3 +885,57 @@ from extractors.indeed import get_page_count, extract_indeed_jobs
 ~~~
 
 extractors 파일에 있는 get_page_count, extract_indeed_jobs 함수 불러오기
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###  2023년 2월 25일 파이썬 스터디 공부
+
+>함수 호출, 파일 저장(csv), 과제
+
+다른 웹 사이트 추출기 만들기, indeed에서 10개의  페이지를 스크랩 할 수는 코드 짜기
+
+## 함수 호출
+
+extractors 폴더 안에 indeed.py, wwr.py 파일 안에 있는 함수를 호출해서 사용
+
+~~~
+from extractors.indeed import extract_indeed_jobs
+from extractors.wwr import extract_wwr_jobs
+
+keyword = input("What do you want to search for?")
+indeed = extract_indeed_jobs(keyword)
+wwr = extract_wwr_jobs(keyword)
+
+jobs = indeed + wwr
+
+for job in jobs:
+    print(job)
+~~~
+
+
+## 파일 저장
+
+open("파일 이름", "모드"), w는 쓰기 모드이다.<br>write() 파일 안에 데이터 입력<br>close() 데이터 입력 후 파일 종료
+
+~~~
+keyword = input("What do you want to search for?")
+file = open(f"{keyword}.csv", "w")
+file.write("Position, Company, Location, URL")
+file.close()
+~~~
+
+## csv
+
+csv파일을 사용하려면 열을 쉼표로 행은 줄로 구분해야 된다.
+~~~
+{
+    'link' : f"https://weworkremotely.com/{link}",
+    'company' : company.string.replace(",", " "),
+    'location' : region.string.replace(",", " "),
+    'position' : title.string.replace(",", " ")
+}
+~~~
+
+기존의 파일에서 쉼표가 들어가는 부분을 공백으로 처리하도록 replace 함수를 사용했음
+
