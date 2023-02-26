@@ -489,3 +489,49 @@ for job in jobs:
 
 file.close()
 ~~~
+
+## 파이썬 스터디 10일차
+### 필기 및 실습
+
++ flask 기본 및 실습
+~~~
+ #flask => 파이썬을 이용해서 웹사이트를 구축할 수 있는 초소형 프레임워크
+
+from flask import Flask, render_template
+
+app = Flask("jobscrapper")
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+@app.route("/search")
+def hello():
+    return render_template("search.html")
+
+
+app.run("127.0.0.1")
+~~~
+
++ html 다루기(기본 템플릿 사용)
+~~~
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" contents="IE=edge">
+ <meta name="viewport" content="width=device-width,
+ initial-scale=1.0">
+ <title>job scrapper</title>
+
+</head>
+<body>
+<h1>Search Results:</h1>
+<h4>What job do you want?</h4>
+<form action="/search"> 
+    <input type = "text" name = "keyword" placeholder = "Write keyword please" />
+    <button>Search</button>
+</form>
+</body>
+</html>
+~~~
