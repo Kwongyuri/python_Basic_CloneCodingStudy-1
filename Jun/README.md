@@ -939,3 +939,81 @@ csv파일을 사용하려면 열을 쉼표로 행은 줄로 구분해야 된다.
 
 기존의 파일에서 쉼표가 들어가는 부분을 공백으로 처리하도록 replace 함수를 사용했음
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###  2023년 2월 26일 파이썬 스터디 공부
+
+>함수, Flask, 변수, html
+
+## 함수
+
+파일 저장에 필요한 코드만 다른 파일에 따로 함수화 해서 저장<br>file.py 파일에 저장된 코드
+~~~
+def save_to_file(file_name, jobs):
+    file = open(f"{file_name}.csv", "w")
+    file.write("Position, Company, Location, URL\n")
+    for job in jobs:
+        file.write(f"{job['position']}, {job['company']}, {job['location']}, {job['link']}\n")
+
+    file.close()
+~~~
+
+main.py 코드
+
+~~~
+from extractors.indeed import extract_indeed_jobs
+from extractors.wwr import extract_wwr_jobs
+from file import save_to_file
+
+keyword = input("What do you want to search for?")
+
+indeed = extract_indeed_jobs(keyword)
+wwr = extract_wwr_jobs(keyword)
+jobs = indeed + wwr
+
+save_to_file(keyword, jobs)
+~~~
+
+## Flask
+
+서버 만들기
+
+~~~
+from flask import Flask
+app = Flask("JobScrapper")
+@app.route("/") #함수 위에 있어야 됨, decorator라고 함
+def home():
+    return 'hello world'
+app.run("0.0.0.0")
+~~~
+
+## 변수
+
+~~~
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Scrapper</title>
+</head>
+<body>
+    <h1>Hello to you! My name is {{name}}</h1>
+    <a href="/hello">go to hello</a>
+</body>
+</html>
+~~~
+
+~~~
+from flask import Flask, render_template
+
+app = Flask("JobScrapper")
+@app.route("/") #함수 위에 있어야 됨, decorator라고 함
+def home():
+    return render_template("home.html", name="asdf")  #변수로 넘기기
+@app.route("/hello")
+def hello():
+    return "hello you!<br><a href='/'>go to main</a>"
+
+app.run("0.0.0.0", debug=True)
+~~~
