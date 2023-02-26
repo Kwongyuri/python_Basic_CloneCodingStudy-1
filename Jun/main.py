@@ -501,24 +501,51 @@ print("\n")
 #     print(job)
     
 
-from extractors.indeed import extract_indeed_jobs
-from extractors.wwr import extract_wwr_jobs
+# from extractors.indeed import extract_indeed_jobs
+# from extractors.wwr import extract_wwr_jobs
 
-keyword = input("What do you want to search for?")
+# keyword = input("What do you want to search for?")
 
-indeed = extract_indeed_jobs(keyword)
-wwr = extract_wwr_jobs(keyword)
+# indeed = extract_indeed_jobs(keyword)
+# wwr = extract_wwr_jobs(keyword)
 
-jobs = indeed + wwr
+# jobs = indeed + wwr
 
-for job in jobs:
-    print(job)
+# for job in jobs:
+#     print(job)
 
-file = open(f"{keyword}.csv", "w")
-file.write("Position, Company, Location, URL\n")
+# file = open(f"{keyword}.csv", "w")
+# file.write("Position, Company, Location, URL\n")
 
-for job in jobs:
-    file.write(f"{job['position']}, {job['company']}, {job['location']}, {job['link']}\n")
+# for job in jobs:
+#     file.write(f"{job['position']}, {job['company']}, {job['location']}, {job['link']}\n")
 
-file.close()
+# file.close()
 
+# --------------------------------------------------------------------
+#2023.02.26 Python 스터디 실습
+
+# from extractors.indeed import extract_indeed_jobs
+# from extractors.wwr import extract_wwr_jobs
+# from file import save_to_file
+
+# keyword = input("What do you want to search for?")
+
+# indeed = extract_indeed_jobs(keyword)
+# wwr = extract_wwr_jobs(keyword)
+# jobs = indeed + wwr
+
+# save_to_file(keyword, jobs)
+
+
+from flask import Flask, render_template
+
+app = Flask("JobScrapper")
+@app.route("/") #함수 위에 있어야 됨, decorator라고 함
+def home():
+    return render_template("home.html", name="asdf")
+@app.route("/search")
+def hello():
+    return render_template("search.html")
+
+app.run("0.0.0.0", debug=True)
