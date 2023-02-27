@@ -1017,3 +1017,37 @@ def hello():
 
 app.run("0.0.0.0", debug=True)
 ~~~
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###  2023년 2월 27일 파이썬 스터디 공부
+
+>request, arguments, 실습
+
+## request
+
+request는 브라우저가 웹사이트에 가서 콘텐츠를 요청하는 것을 말한다.<br>요청하는 URL이 무엇인지, IP주소가 무엇인지, Cookies를 가지고 있는지
+
+### 실습 코드
+~~~
+from flask import Flask, render_template, request
+from extractors.indeed import extract_indeed_jobs
+from extractors.wwr import extract_wwr_jobs
+
+app = Flask("JobScrapper")
+@app.route("/") #함수 위에 있어야 됨, decorator라고 함
+
+def home():
+    return render_template("home.html", name="asdf")
+
+@app.route("/search")
+
+def hello():
+    keyword = request.args.get("keyword")
+    indeed = extract_indeed_jobs(keyword)
+    wwr = extract_wwr_jobs(keyword)
+    jobs = indeed + wwr
+    return render_template("search.html", keyword = keyword, jobs=jobs)
+
+app.run("0.0.0.0", debug=True)
+~~~

@@ -7,7 +7,14 @@
     <title>Job Scrapper</title>
 </head>
 <body>
-    <h1>Search results:</h1>
-    </form>
+    <h1>Search results for "{{keyword}}" :</h1>
+    {% for job in jobs%}
+    <div>
+        <span>{{job.position}}</span>
+        <span>{{job.company}}</span>
+        <span>{{job.location}}</span>
+        <a href="{{job.link}}" target="_blank">Apply now &rrarr;</a>
+    </div>
+    {% endfor %}
 </body>
 </html>
