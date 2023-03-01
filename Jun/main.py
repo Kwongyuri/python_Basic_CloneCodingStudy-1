@@ -590,7 +590,7 @@ db = {}
 @app.route("/") #함수 위에 있어야 됨, decorator라고 함
 
 def home():
-    return render_template("home.html", name="asdf")
+    return render_template("home.html")
 
 @app.route("/search")
 
@@ -615,7 +615,9 @@ def export():
         return redirect("/")
     if keyword not in db:
         return redirect(f"/search?keyword={keyword}")
+    
     save_to_file(keyword, db[keyword])
     return send_file(f"{keyword}.csv", as_attachment=True)
 
-app.run("0.0.0.0", debug=True)
+# app.run("0.0.0.0", debug=True)
+app.run("0.0.0.0")
