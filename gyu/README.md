@@ -479,15 +479,14 @@ extj = extract_jobs(keyword)
 
 jobs = indeed + extj
 
-file = open(f"{keyword}.csv", "w") #csv로(입력된 keyword를 제목으로) 저장(쓰기 전용으로) => 이름과 모드 설정
+def save_to_file(file_name, jobs):
 
-file = open(f"{keyword}.csv", "w") #csv로(입력된 keyword를 제목으로) 저장(쓰기 전용으로) => 이름과 모드 설정
+    file = open(f"{file_name}.csv", "w") #csv로(입력된 keyword를 제목으로) 저장(쓰기 전용으로) => 이름과 모드 설정
+    file.write("Position, Company, Location, URL\n") #Position, Company, Location, URL을 쉼표로 구분하여 열마다 삽입 후 줄바꿈
+    for job in jobs:
+        file.write(f"{job['position']}, {job['company']}, {job['location']},{job['link']}\n") # 스크랩한 정보(Position, Company, Location, URL)를 열마다 삽입 후 줄바꿈
 
-file.write("Position, Company, Location, URL\n") #Position, Company, Location, URL을 쉼표로 구분하여 열마다 삽입 후 줄바꿈
-for job in jobs:
-    file.write(f"{job['position']}, {job['company']}, {job['location']},{job['link']}\n") # 스크랩한 정보(Position, Company, Location, URL)를 열마다 삽입 후 줄바꿈
-
-file.close()
+    file.close()
 ~~~
 
 ## 파이썬 스터디 10일차
@@ -533,5 +532,188 @@ app.run("127.0.0.1")
     <button>Search</button>
 </form>
 </body>
+</html>
+~~~
+
+## 파이썬 스터디 11일차
+### 필기 및 실습
+
++ main.py 부분(exract_indeed_jobs, extract_jobs 함수를 추가하여 직업정보 받아오도록 함)
+~~~
+from flask import Flask, render_template, request
+from extractors.study7 import extract_indeed_jobs
+from extractors.study6 import extract_jobs
+
+app = Flask("jobscrapper")
+
+@app.route("/")
+def home():
+    return render_template("home.html", name = "jg")
+
+@app.route("/")
+def search():
+    keyword = request.args.get("keyword")
+    indeed = extract_indeed_jobs(keyword)
+    ijs = extract_jobs(keyword)
+    jobs = indeed + ijs
+    return render_template("search.html", keyword=keyword, jobs=jobs)
+
+app.run("127.0.0.1")
+~~~
+
++ serach.html 부분(받아온 직업정보를 띄우는 기능 추가)
+ 필기
+ 1) flask에서 for문을 사용하는 방식 => {% for~~ %} RmxsofEosms {% endfor %}
+ 2) {{}} 문법과 {%%}문법의 차이 => {{}}안에 변수를 넣으면  flsak가 변수를 값으로 변환, {%%}은 실행하고자 하는 파이썬 코드를 입력
+ 3) 코드에 있는 for문 설명 => flask가 {{}}안에 있는 걸(position, company 등) 데이터로 변환
+~~~
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" contents="IE=edge">
+ <meta name="viewport" content="width=device-width,
+ initial-scale=1.0">
+ <title>job scrapper</title>
+
+</head>
+<body>
+<h1>Search Results for "{{keyword}}":</h1>
+
+{% for job in jobs %} 
+<div>
+    <span>{{job.position}}</span>
+    <span>{{job.company</span>
+    <span>{{job.location}}</span>
+    <a href = "{{job.link}}" target = "_blank">Apply now &rarr;</a>
+</div>
+{% endfor %}
+
+<h4>What job do you want?</h4>
+<form action="/search"> 
+    <input type = "text" name = "keyword" placeholder = "Write keyword please" />
+    <button>Search</button>
+</form>
+</body>
+</html>
+~~~
+
+## 파이썬 스터디 12일차
+### 필기 및 실습
+
++ main.py(파일 다운 기능 추가)
+~~~
+from flask import Flask, render_template, request, redirect, send_file
+from extractors.study7 import extract_indeed_jobs
+from extractors.study6 import extract_jobs
+from study7_1 import save_to_file
+app = Flask("JobScrapper")
+
+db = {}
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+@app.route("/search")
+def search():
+    keyword = request.args.get("keyword")
+    if keyword == None: #아무것도 검색하지 않았을 때
+       return redirect("/") #다시 돌려보냄
+    if keyword in db:
+     jobs = db[keyword]
+    else:
+        indeed = extract_indeed_jobs(keyword)
+        ijs = extract_jobs(keyword)
+        jobs = indeed + ijs
+        db[keyword] = jobs
+    return render_template("search.html", keyword=keyword, jobs=jobs)
+
+@app.route("/export")
+def export():
+   keyword = request.args.get("keyword")
+   if keyword == None:
+      return redirect("/")
+   if keyword not in db:
+      return redirect(f"/search?keyword={keyword}")
+   save_to_file(keyword, db[keyword]) #파일 저장
+   return send_file(f"{keyword}.csv", as_attachment=True)
+
+app.run("0.0.0.0")
+~~~
+
++ home.html(pico, table을 활용하여 이쁘게 만들기)
+~~~
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" contents="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>job scrapper</title>
+ <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+</head>
+
+<body>
+ <main class = "container">
+    <h1>Job Scrapper</h1>
+    <h4>What job do you want?</h4>
+    <form action="/search" method="get">
+        <input type = "text" name = "keyword" placeholder = "Write keyword please" />
+        <button>Search</button>
+    </form>>
+ </main>
+</body>
+
+</html>
+~~~
+
++ search.html(pico, table을 활용하여 이쁘게 만들기)
+~~~
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" contents="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Job Scrapper</title>
+ <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
+</head>
+
+<body>
+    <main class = "container">    
+        <hgroup>
+         <h1>Search Results for "{{keyword}}":</h1>
+         <a target="_blank" href="/export?keyword={{keyword}}">Export to file</a>"
+         <a target="_blank" href="/">Go to home</a>
+        </hgroup>
+
+        <table role = "grid">
+            <thread>
+                <tr>
+                    <th>Position</th>
+                    <th>Company</th>
+                    <th>Location</th>
+                    <th>Link</th>
+                </tr>
+            </thread>
+
+            <tbody>
+            {% for job in jobs %} 
+                <tr>
+                    <td>{{job.position}}</td>
+                    <td>{{job.company}}</td>
+                    <td>{{job.location}}</td>
+                    <td><a href = "{{job.link}}" target = "_blank">Apply &rarr;</a></td>
+                </tr>
+            {% endfor %}  
+            </tbody>
+            <figure></figure>
+        </table>
+    </main>
+</body>
+
 </html>
 ~~~
