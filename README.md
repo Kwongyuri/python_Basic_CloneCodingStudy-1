@@ -2,9 +2,10 @@
 <p align="middle" >
   <img width="300px;" src="https://user-images.githubusercontent.com/92977647/217286805-fa3ec5e0-fc40-4602-ac84-7a80cbc3feac.png"/>
 </p>
-<h2 align="middle">Python 기초 스터디를 활용한 웹 스크래퍼 만들기 스터디입니다. </h2>
+<h2 align="middle">Python 기초 스터디를 활용한 웹 스크래퍼 만들기 스터디입니다.(2회차) </h2>
 <p align="middle">
-매일 공부하는 습관을 만드는 파이썬 스터디 
+매일 공부하는 습관을 만드는 파이썬 스터디 <br>
+2회차 스터디 Lead : 김연수 - 백엔드 PM
 <br/>
 Today I Leared
 </p>
