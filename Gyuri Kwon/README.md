@@ -9,7 +9,7 @@
 
 * 웹 스크래핑 하는 법 (indeed 사이트 사용)
 
-- main.py
+-- main.py
 
 from extractors.indeed import extract_indeed_jobs
 from extractors.wwr import extract_wwr_jobs
@@ -29,3 +29,7 @@ for job in jobs:
 
 file.close()
 
+indeed 파일 
+    'company' : "company.string.replace(",", " ")",
+    여기서 SyntaxError: ':' expected after dictionary key
+    오류가 발생하는데 어떻게 수정해야 될지 잘 모르겠습니다
