@@ -130,4 +130,4 @@ def extract_wwr_jobs(keyword):
     indeed 파일 
     'company' : "company.string.replace(",", " ")",
     여기서 SyntaxError: ':' expected after dictionary key
-    오류가 발생하는데 어떻게 수정해야 될지 잘 
+    오류가 발생하는데 어떻게 수정해야 될지 잘 모르겠습니다
